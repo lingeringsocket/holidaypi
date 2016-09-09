@@ -13,4 +13,6 @@ done
 
 MP4Box -fps ${VIDEO_FRAMERATE} ${opts} film.mp4
 
+rm *.h264
+
 popd
