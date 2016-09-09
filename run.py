@@ -40,7 +40,7 @@ need_thumbnail = True
 try:
     while True:
         if recording:
-            if debounce or GPIO.input(config.BUTTONGPIO)==1:
+            if debounce or (GPIO.input(config.BUTTONGPIO)==1):
                 debounce = False
                 camera.wait_recording(1)
             else:
@@ -49,7 +49,7 @@ try:
                 recording = False
                 camera.stop_recording()
         else:
-            if debounce or GPIO.input(config.BUTTONGPIO)==0:
+            if debounce or (GPIO.input(config.BUTTONGPIO)==0):
                 debounce = False
                 time.sleep(1)
             else:
