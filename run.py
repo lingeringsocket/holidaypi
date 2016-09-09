@@ -20,7 +20,7 @@ ButtonCounter = 0
 # Setup GPIO pins
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO.setup(config.BUTTONGPIO, GPIO.IN)
+GPIO.setup(config.BUTTONGPIO, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 # Create camera object and setup
 camera = picamera.PiCamera()
