@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 source ./config.py
 
 pushd ${VIDEO_PATH}
@@ -12,7 +14,5 @@ do
 done
 
 MP4Box -fps ${VIDEO_FRAMERATE} ${opts} film.mp4
-
-rm *.h264
 
 popd

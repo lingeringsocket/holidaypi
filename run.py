@@ -14,9 +14,6 @@ def GetFileName():
     return filename
 
 
-def LEDS(led,state):
-  GPIO.output(led, state)      
-
 print "Holiday Pi"
 
 ButtonCounter = 0
@@ -25,13 +22,12 @@ ButtonCounter = 0
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(config.BUTTONGPIO, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(config.ACTIVLED, GPIO.OUT)
 
 # Create camera object and setup
 camera = picamera.PiCamera()
 camera.framerate  = config.VIDEO_FRAMERATE
 camera.resolution = config.VIDEO_RESOLUTION
-camera.led = config.VIDEO_LED
+camera.led = False
 camera.vflip = config.VIDEO_VFLIP
 camera.rotation = config.VIDEO_ROTATE
 
@@ -52,8 +48,8 @@ try:
                 print "  Stop recording"
                 debounce = True
                 recording = False
+                camera.led = False
                 camera.stop_recording()
-                LEDS(config.ACTIVLED, False)
         else:
             if debounce or (GPIO.input(config.BUTTONGPIO)==0):
                 debounce = False
@@ -63,7 +59,7 @@ try:
                 recording = True
                 filename = GetFileName()
                 start_time = time.time()
-                LEDS(config.ACTIVLED, True)
+                camera.led = True
                 if need_thumbnail:
                     need_thumbnail = False
                     camera.capture(os.path.join(config.VIDEO_PATH,'thumbnail.jpg'), use_video_port=True)
@@ -71,6 +67,6 @@ try:
                 print 'Start recording : ' + stamp + ' : ' + filename + '.h264'
                 camera.start_recording(os.path.join(config.VIDEO_PATH,filename + '.h264'))
 except KeyboardInterrupt:
+    camera.led = False
     camera.close()
-    LEDS(config.ACTIVLED, False)
     print "Camera closed"
