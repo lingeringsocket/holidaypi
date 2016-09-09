@@ -36,6 +36,7 @@ print "Camera ready"
 debounce = False
 recording = False
 need_thumbnail = True
+poll_interval = 0.2
 
 # Run until Control-C
 try:
@@ -43,7 +44,7 @@ try:
         if recording:
             if debounce or (GPIO.input(config.BUTTONGPIO)==1):
                 debounce = False
-                camera.wait_recording(1)
+                camera.wait_recording(poll_interval)
             else:
                 print "  Stop recording"
                 debounce = True
@@ -53,7 +54,7 @@ try:
         else:
             if debounce or (GPIO.input(config.BUTTONGPIO)==0):
                 debounce = False
-                time.sleep(1)
+                time.sleep(poll_interval)
             else:
                 debounce = True
                 recording = True
